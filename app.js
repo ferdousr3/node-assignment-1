@@ -17,14 +17,14 @@ app.get("/", (req, res) => {
 });
 
 //route is found
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({
     message: "route is not found",
   });
 });
 
 // server is not found
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(500).json({
     message: "server is not found",
   });
