@@ -1,46 +1,82 @@
-# Getting Started with Create React App
+# User API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live API Link [user API](https://user-zeta.vercel.app/).
 
-## Available Scripts
+## Details Details
 
-In the project directory, you can run:
+User Api for Random All user, Random A User, Update a User, Update Multiple Users, Delete A user
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 1. Get A Random user:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+https://user-zeta.vercel.app/user/random
+```
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 2. Get All Random users:
 
-### `npm run build`
+```
+https://user-zeta.vercel.app/user/all
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 3. Add New User:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+https://user-zeta.vercel.app/user/save
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 4. Update a user :
 
-### `npm run eject`
+```
+https://user-zeta.vercel.app/user/update
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 5. Update a multiple users :
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+https://user-zeta.vercel.app/user/bulk-update
+```
+## 6. Delete a user  :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+https://user-zeta.vercel.app/user/delete
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+### update & delete a user data :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+{
+    "id": "26",
+    "gender": "female",
+    "name": "kampala",
+    "address": "dhaka,bangladesh",
+    "contact": "01722-2222222",
+    "photoUrl": "wwww.photo.com"
+  }
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### update multiple users data:
+
+```
+[
+  {
+    "id": "25",
+    "gender": "male",
+    "name": "kampala",
+    "address": "dhaka,bangladesh",
+    "contact": "01722-2222222",
+    "photoUrl": "wwww.photo.com"
+  },
+  {
+    "id": "26",
+    "gender": "female",
+    "name": "kampala",
+    "address": "dhaka,bangladesh",
+    "contact": "01722-2222222",
+    "photoUrl": "wwww.photo.com"
+  }
+]
+```
