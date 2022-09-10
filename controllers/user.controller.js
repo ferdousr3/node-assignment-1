@@ -2,7 +2,7 @@ const fsPromises = require("fs").promises;
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
-const { saveNewUser, getUserData } = require("../utility/user");
+const { saveNewUser, getUserData, isNumeric } = require("../utility/user");
 const user = require("../data/data.json");
 
 // get a random user
@@ -29,8 +29,26 @@ const getAllUsers = async (req, res) => {
       "utf8"
     );
     const newData = await JSON.parse(data);
-    const randomUsers = newData.sort(() => 0.5 - Math.random());
-    res.status(200).json(randomUsers);
+
+    const query = req.query.limit;
+    const numberQuery = parseInt(query);
+
+    if (query) {
+      if (
+        newData.length >= numberQuery &&
+        numberQuery !== 0 &&
+        numberQuery !== -1
+      ) {
+        const randomUsers = newData.sort(() => 0.5 - Math.random());
+        const limitUser = randomUsers.slice(0, query);
+        res.status(200).json(limitUser);
+      } else {
+        res.send("data limit is higher than data");
+      }
+    } else {
+      const randomUsers = newData.sort(() => 0.5 - Math.random());
+      res.status(200).json(randomUsers);
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -42,6 +60,9 @@ const saveUser = async (req, res) => {
     const existUsers = getUserData();
     //get the new user
     const userData = req.body;
+    const numberId = userData.id;
+    const check = isNumeric(+numberId);
+
     //check if the user fields are missing
     if (
       userData.id == null ||
@@ -63,11 +84,16 @@ const saveUser = async (req, res) => {
         .status(409)
         .send({ error: true, msg: "user id already exist" });
     }
-    //append the user data
-    existUsers.push(userData);
-    //save the new user data
-    saveNewUser(existUsers);
-    res.send({ success: true, msg: "New User  added successfully" });
+
+    //save the new user data if id in number
+
+    if (check === true) {
+      existUsers.push(userData);
+      saveNewUser(existUsers);
+      res.send({ success: true, msg: "New User  added successfully" });
+    } else {
+      res.send({ error: true, msg: "Please provide number id" });
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -79,6 +105,8 @@ const updateUser = async (req, res) => {
     const userId = req.body.id;
     //get the update data
     const userData = req.body;
+
+    const check = isNumeric(+userId);
     //get the existing user
     const existUsers = getUserData();
     //check if the user id is missing
@@ -93,11 +121,15 @@ const updateUser = async (req, res) => {
 
     //filter the user to remove it
     const updateUser = existUsers.filter((user) => user.id !== userId);
-    //push the updated data
-    updateUser.push(userData);
-    //save the filtered
-    saveNewUser(updateUser);
-    res.send({ success: true, msg: "User update successfully" });
+    if (check === true) {
+      //push the updated data
+      updateUser.push(userData);
+      //save the filtered
+      saveNewUser(updateUser);
+      res.send({ success: true, msg: "User update successfully" });
+    } else {
+      res.send({ error: true, msg: "Please provide number id" });
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -112,15 +144,14 @@ const bulkUpdate = async (req, res) => {
     //get the existing user
     const existUsers = getUserData();
     //check if the user id is missing
-  //  const missingFiled = userData.filter((x) => !existUsers.includes(x));
-  //  const isSameUser = (missingFiled, userData) =>
-  //    userData.value === existUsers.value &&
-  //    existUsers.name === userData.name;
+    // const missingFiled = userData.filter((x) => !existUsers.includes(x));
+    // const isSameUser = (missingFiled, userData) =>
+    //   userData.value === existUsers.value && existUsers.name === userData.name;
 
-  //   console.log('missing',missingFiled);
-  //   if (missingFiled == null) {
-  //     return res.status(401).send({ error: true, msg: "User Id is missing" });
-  //   }
+    // console.log("missing", isSameUser);
+    // if (missingFiled == null) {
+    //   return res.status(401).send({ error: true, msg: "User Id is missing" });
+    // }
     //check if the user id exist or not
 
     const keys = existUsers.map((user) => user.id);
@@ -133,7 +164,6 @@ const bulkUpdate = async (req, res) => {
     const updatedUser = existUsers.map(
       (user) => userData.find((item) => item.id === user.id) || user
     );
-    
 
     //push the updated data
 
@@ -148,7 +178,8 @@ const bulkUpdate = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const userId = req.body.id;
-    console.log(userId);
+    const check = isNumeric(+userId);
+
     //get the existing user
     const existUsers = getUserData();
     //check if the user id is missing
@@ -163,8 +194,12 @@ const deleteUser = async (req, res) => {
         .send({ error: true, msg: "user id does not exist" });
     }
     //save the filtered
-    saveNewUser(filterUser);
-    res.send({ success: true, msg: "User removed successfully" });
+    if (check === true) {
+      saveNewUser(filterUser);
+      res.send({ success: true, msg: "User removed successfully" });
+    } else {
+      res.send({ error: true, msg: "Please provide number id" });
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }

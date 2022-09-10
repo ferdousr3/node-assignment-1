@@ -1,13 +1,12 @@
 const path = require("path");
 const fs = require("fs");
 
-
-//read the user 
+//read the user
 const saveNewUser = (data) => {
   const stringifyData = JSON.stringify(data);
   fs.writeFileSync(path.join(__dirname, "../data", "data.json"), stringifyData);
 };
-//get the user 
+//get the user
 const getUserData = () => {
   const jsonData = fs.readFileSync(
     path.join(__dirname, "../data", "data.json")
@@ -15,5 +14,9 @@ const getUserData = () => {
   return JSON.parse(jsonData);
 };
 
+// check number
+const isNumeric = (num) => {
+  return !isNaN(num);
+};
 
-module.exports = { saveNewUser, getUserData };
+module.exports = { saveNewUser, getUserData, isNumeric };

@@ -6,19 +6,24 @@ Live API Link [user API](https://user-zeta.vercel.app/).
 
 User Api for Random All user, Random A User, Update a User, Update Multiple Users, Delete A user
 
-
 ## 1. Get A Random user:
 
 ```
 https://user-zeta.vercel.app/user/random
 ```
 
-
 ## 2. Get All Random users:
 
 ```
 https://user-zeta.vercel.app/user/all
 ```
+
+### Get Limit users:
+
+```
+https://user-zeta.vercel.app/user/all?limit=2
+```
+
 
 ## 3. Add New User:
 
@@ -32,12 +37,13 @@ https://user-zeta.vercel.app/user/save
 https://user-zeta.vercel.app/user/update
 ```
 
-## 5. Update a multiple users :
+## 5. Update multiple users :
 
 ```
 https://user-zeta.vercel.app/user/bulk-update
 ```
-## 6. Delete a user  :
+
+## 6. Delete a user :
 
 ```
 https://user-zeta.vercel.app/user/delete
